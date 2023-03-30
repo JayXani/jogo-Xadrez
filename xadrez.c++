@@ -19,19 +19,29 @@ char xadrez[8][8] = {
     {'t' , 'c' , 'b' , 'q' , 'k' , 'b' , 'c' , 't' }
 };
 
-int printarMatriz(){
+void printarMatriz(){
     system("CLS"); //Esse comando limpa a tela
     for(int i = 0; i < 8; i++){
-        for(int j = 0; j < 8; j++){
-            cout<<"\xB2"; //Printa os quadrados do xadrez
+        for(int pintaLinha = 0; pintaLinha < 3; pintaLinha++){ //Somente para deixar um espaço para a peça no tabuleiro
+            for(int j = 0; j < 8; j++){
+                char peca = xadrez[i][j];
+                char letra = ((i + j) % 2 == 0) ? '\xB2' : ' ';
+                letra = (pintaLinha == 1) ? peca : letra;
+
+                if((i + j) % 2 == 0){
+                    cout<<"\xB2\xB2"<<letra<<"\xB2\xB2"; //Printa os quadrados do xadrez PINTADOS
+                }else{
+                    cout<<"  "<<letra<<"  ";
+                }
+            }
+            cout<<"\n";
         }
-        cout<< "\n";
     }
 }
-
 
 int main(){
     printarMatriz();
     getch();
+
     return 0;
 }
