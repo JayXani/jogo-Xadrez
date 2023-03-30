@@ -26,7 +26,7 @@ void printarMatriz(){
             for(int j = 0; j < 8; j++){
                 char peca = xadrez[i][j];
                 char letra = ((i + j) % 2 == 0) ? '\xB2' : ' ';
-                letra = (pintaLinha == 1) ? peca : letra;
+                letra = (pintaLinha == 1 && peca != ' ') ? peca : letra;
 
                 if((i + j) % 2 == 0){
                     cout<<"\xB2\xB2"<<letra<<"\xB2\xB2"; //Printa os quadrados do xadrez PINTADOS
@@ -41,7 +41,5 @@ void printarMatriz(){
 
 int main(){
     printarMatriz();
-    getch();
-
     return 0;
 }
