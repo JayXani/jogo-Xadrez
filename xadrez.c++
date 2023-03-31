@@ -56,8 +56,11 @@ int moverPecas(int linOrigem, int colOrigem, int linDestino, int colDestino){
             if((peca == 'T' || peca == 't') && (deslocaVertical == 0 || deslocaHorizon == 0)) mover = 1;     //verificação de movimento da TORRE
             if((peca == 'B' || peca == 'b') && (deslocaVertical == deslocaHorizon)) mover = 1;              //verificação de movimentos do BISPO
 
-            //verificaçãa de movimento do cavalo (Condição que está abaixo)
-            if(((peca == 'C' || peca == 'c') && (deslocaVertical == 1 && deslocaHorizon == 2)) || (deslocaVertical == 2 && deslocaHorizon == 1)) mover = 1;  
+            //verificaçãa de movimento do CAVALO (Condição que está abaixo)
+            if(((peca == 'C' || peca == 'c') && (deslocaVertical == 1 && deslocaHorizon == 2)) || (deslocaVertical == 2 && deslocaHorizon == 1)) mover = 1; 
+
+            //verificação de movimentos da RAINHA 
+            if((peca == 'Q' || peca == 'q') && ((deslocaVertical == deslocaHorizon)) || ((deslocaVertical == 0) || (deslocaHorizon == 0))) mover = 1;
             
         
             if(mover){
@@ -72,7 +75,6 @@ int moverPecas(int linOrigem, int colOrigem, int linDestino, int colDestino){
         return 0;
     }
 }
-
 
 int main(){
     int linhaOrigem, linhaDestino, colunaOrigem, colunaDestino;
