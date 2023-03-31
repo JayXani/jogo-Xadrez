@@ -1,6 +1,5 @@
 #include <iostream>
 #include <stdio.h>
-#include <stdlib.h>
 #include <conio.h>
 
 using namespace std;
@@ -44,17 +43,36 @@ void printarMatriz(){
 
 int moverPecas(int linOrigem, int colOrigem, int linDestino, int colDestino){
 
+    char peca;
+    int mover = 0;
+    int deslocaVertical = std::abs(linDestino - linOrigem);
+    int deslocaHorizon = std::abs(colDestino - colOrigem);
+
     if((linOrigem >= 0 && linOrigem < 8) && (colOrigem >= 0 && colOrigem < 8)){  
         if((linDestino >= 0 && linDestino < 8) && (colDestino >= 0 && colDestino < 8)){
-            xadrez[linDestino][colDestino] = xadrez[linOrigem][colOrigem];
-            xadrez[linOrigem][colDestino] = ' ';
+
+            peca = xadrez[linOrigem][colOrigem];
+            
+            if((peca == 'T' || peca == 't') && (deslocaVertical == 0 || deslocaHorizon == 0)) mover = 1;     //verificação de movimento da TORRE
+            if((peca == 'B' || peca == 'b') && (deslocaVertical == deslocaHorizon)) mover = 1;              //verificação de movimentos do BISPO
+
+            //verificaçãa de movimento do cavalo (Condição que está abaixo)
+            if(((peca == 'C' || peca == 'c') && (deslocaVertical == 1 && deslocaHorizon == 2)) || (deslocaVertical == 2 && deslocaHorizon == 1)) mover = 1;  
+            
+        
+            if(mover){
+                system("CLS");
+                xadrez[linDestino][colDestino] = xadrez[linOrigem][colOrigem];
+                xadrez[linOrigem][colOrigem] = ' ';
+            }
         }
         return 1;
     }else{
+        
         return 0;
     }
-
 }
+
 
 int main(){
     int linhaOrigem, linhaDestino, colunaOrigem, colunaDestino;
