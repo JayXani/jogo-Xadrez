@@ -62,14 +62,27 @@ int moverPecas(int linOrigem, int colOrigem, int linDestino, int colDestino){
             //verificação de movimentos da RAINHA 
             if((peca == 'Q' || peca == 'q') && ((deslocaVertical == deslocaHorizon)) || ((deslocaVertical == 0) || (deslocaHorizon == 0))) mover = 1;
             
+            //verificação de movimentos do REI (King)
+            if((peca == 'K' || peca == 'k') && (deslocaVertical >= 0 && deslocaVertical <= 1) && (deslocaHorizon >= 0 && deslocaHorizon <= 1)) mover = 1;
+
+            //verificação de movimentos do PEÃO PRETO
+            if((peca == 'P') && (linDestino - linOrigem == 1) && (deslocaHorizon == 0)) mover = 1;
+
+            //verificaçõa de movimentos do PEÃO BRANCO
+            if((peca == 'p') && (linOrigem - linDestino == 1) && (deslocaHorizon == 0)) mover = 1;
+
         
             if(mover){
                 system("CLS");
                 xadrez[linDestino][colDestino] = xadrez[linOrigem][colOrigem];
                 xadrez[linOrigem][colOrigem] = ' ';
+                 
+                return 1;     // 1 == Peça movida com sucesso
+            }else{
+                return 9;   // 9 == peça nõa pode ser movida 
             }
         }
-        return 1;
+       
     }else{
         
         return 0;
@@ -77,7 +90,7 @@ int moverPecas(int linOrigem, int colOrigem, int linDestino, int colDestino){
 }
 
 int main(){
-    int linhaOrigem, linhaDestino, colunaOrigem, colunaDestino;
+    int linhaOrigem, linhaDestino, colunaOrigem, colunaDestino, resultado = 0;
     while(1){
         printarMatriz();
 
@@ -87,9 +100,25 @@ int main(){
         cout<<"Informe a linha e coluna de destino: ";
         scanf("%d %d", &linhaDestino, &colunaDestino);
 
-        if(moverPecas(linhaOrigem, colunaOrigem, linhaDestino, colunaDestino) != 1){
+        resultado = moverPecas(linhaOrigem, colunaOrigem, linhaDestino, colunaDestino);
+        if(resultado != 1){
+            switch ( resultado )
+            {
+                case 9 : 
+                    cout<< "ERRO ! \nPeca nao pode ser movida";
+                    getch();
 
-            cout<< "ERRO: Valores INVALIDOS ! \nClique na tecla \"Enter\" para colocar novos valores !";
+                    break;
+                case 0:
+                    cout<< "ERRO : Valores invalidos\nClique na tecla \"Enter\" para colocar novos valores !";
+                    getch();
+
+                    break;
+                
+                case 1:
+
+                    break;
+            }
             getch();
         }
     }
