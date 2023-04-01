@@ -3,6 +3,11 @@
 #include <conio.h>
 
 using namespace std;
+/*Nomes:
+    Danilo de Araújo Leite Gomes
+    Bruno Jean Lima
+
+*/
 
 /*Inicializando o tabuleiro, Q = queen, K = king
 Letras em maiúsculas representam peças Pretas, em minúculas peças brancas */
