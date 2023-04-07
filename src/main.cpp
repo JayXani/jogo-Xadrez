@@ -24,13 +24,9 @@ char xadrez[8][8] = {
 };
 
 
-//Essa função serve para criarmos a interface gráfica,inicializa o SDL
-
-
 
 //função que printa o tabuleiro na tela
-void printarMatriz(){
-    system("CLS"); 
+void printarMatriz(){ 
     for(int i = 0; i < 8; i++){
         for(int pintaLinha = 0; pintaLinha < 3; pintaLinha++){ //Somente para deixar um espaço para a peça no tabuleiro e centralizar a peça
             for(int j = 0; j < 8; j++){
@@ -74,12 +70,11 @@ int moverPecas(int linOrigem, int colOrigem, int linDestino, int colDestino){
             
             //verificação de movimentos do REI (King)
              if(peca == 'K' || peca == 'k'){
-                if(deslocaVertical >= 0 && deslocaVertical <= 1){
-                    if(deslocaHorizon >= 0 && deslocaHorizon <= 1){
-                       mover = 1;
+                if(deslocaHorizon <= 1 && deslocaVertical <= 1){
+                    mover = 1;
                         
-                    }
                 }
+                
              }
 
             //verificação de movimentos do PEÃO PRETO
@@ -90,7 +85,7 @@ int moverPecas(int linOrigem, int colOrigem, int linDestino, int colDestino){
 
         
             if(mover){
-                
+                system("CLS");
                 xadrez[linDestino][colDestino] = xadrez[linOrigem][colOrigem];
                 xadrez[linOrigem][colOrigem] = ' ';
                  
@@ -100,10 +95,11 @@ int moverPecas(int linOrigem, int colOrigem, int linDestino, int colDestino){
             }
         }
         
-    }return 0;
+    }
+    return 0;
 }
 
-int main (int argc, char ** args){
+int main (){
   
     int linhaOrigem, linhaDestino, colunaOrigem, colunaDestino, resultado = 0;
 
@@ -140,5 +136,6 @@ int main (int argc, char ** args){
         }
     }
     getch();
+
     return 0;
 }
