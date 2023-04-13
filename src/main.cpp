@@ -4,38 +4,46 @@
 
 using namespace std;
 /*Nomes:
-    Danilo de Araújo Leite Gomes
-    Bruno Jean Lima
+    Danilo de Araújo Leite Gomes        RA: 1840482212023
+    Bruno Jean Lima                     RA: 1840482212011
 
 */
 
 /*Inicializando o tabuleiro, Q = queen, K = king
 Letras em maiúsculas representam peças Pretas, em minúculas peças brancas */
 
-char xadrez[8][8] = {
-    {'T' , 'C' , 'B' , 'Q' , 'K' , 'B' , 'C' , 'T' },
-    {'P' , 'P' , 'P' , 'P' , 'P' , 'P' , 'P' , 'P' },
-    {' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' },
-    {' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' },
-    {' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' },
-    {' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' },
-    {'p' , 'p' , 'p' , 'p' , 'p' , 'p' , 'p' , 'p' },
-    {'t' , 'c' , 'b' , 'q' , 'k' , 'b' , 'c' , 't' }
+char xadrez[10][10] = {
+	{'-', '1', '2', '3', '4', '5', '6', '7', '8' },    //TABULEIRO,  USEI UMA MATRIZ  10 X 10/
+	{'1', 't', 'c', 'b', 'k', 'q', 'b', 'c', 't' },
+	{'2', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p' },
+	{'3', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+	{'4', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+	{'5', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+	{'6', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+	{'7', 'P', 'P', 'P', 'P', 'P', 'P', 'P', 'P' },
+	{'8', 'T', 'C', 'B', 'Q', 'K', 'B', 'C', 'T' }
+	
 };
 
 
-
-//função que printa o tabuleiro na tela
-void printarMatriz(){ 
-    for(int i = 0; i < 8; i++){
-        for(int pintaLinha = 0; pintaLinha < 3; pintaLinha++){ //Somente para deixar um espaço para a peça no tabuleiro e centralizar a peça
-            for(int j = 0; j < 8; j++){
+//funÃ§Ã£o que printa o tabuleiro na tela
+void printarMatriz(){
+    char letra;
+    for(int i = 0; i < 9; i++){
+        for(int pintaLinha = 0; pintaLinha < 3; pintaLinha++){ //Somente para deixar um espaÃ§o para a peÃ§a no tabuleiro e centralizar a peÃ§a
+            for(int j = 0; j < 9; j++){
+            	
                 char peca = xadrez[i][j];
-                char letra = ((i + j) % 2 == 0) ? '\xB2' : ' ';
+                if((letra = ((i  + j) % 2 == 0)) && ((i != 0 && i != 9) && (j != 0 && j != 9))){  //Somente deixar as coordenadas não pintadas e já faz a verificação para a pintura da "letra"
+                    letra = '\xB2';
+                }else{
+                    letra = ' ';
+                }
                 letra = (pintaLinha == 1 && peca != ' ') ? peca : letra;
 
-                if((i + j) % 2 == 0){
+                if(((i!=0 && i !=9) && (j!=0 && j !=9)) && (i + j) % 2 == 0){
                     cout<<"\xB2\xB2"<<letra<<"\xB2\xB2"; //Printa os quadrados do xadrez PINTADOS
+                    
                 }else{
                     cout<<"  "<<letra<<"  ";
                 }
@@ -48,7 +56,6 @@ void printarMatriz(){
 //função que move as peças no tabuleiro
 
 int moverPecas(int linOrigem, int colOrigem, int linDestino, int colDestino){
-
     char peca;
     int mover = 0;
     int deslocaVertical = std::abs(linDestino - linOrigem);
@@ -83,7 +90,6 @@ int moverPecas(int linOrigem, int colOrigem, int linDestino, int colDestino){
             //verificaçõa de movimentos do PEÃO BRANCO
             if((peca == 'p') && (linOrigem - linDestino == 1) && (deslocaHorizon == 0)) mover = 1;
 
-        
             if(mover){
                 system("CLS");
                 xadrez[linDestino][colDestino] = xadrez[linOrigem][colOrigem];
@@ -102,9 +108,7 @@ int moverPecas(int linOrigem, int colOrigem, int linDestino, int colDestino){
 int main (){
   
     int linhaOrigem, linhaDestino, colunaOrigem, colunaDestino, resultado = 0;
-
     while(1){
-
         printarMatriz();
 
         cout<<"Informe a linha e coluna de origem: "; 
