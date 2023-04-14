@@ -7,7 +7,16 @@ using namespace std;
     Danilo de Araújo Leite Gomes        RA: 1840482212023
     Bruno Jean Lima                     RA: 1840482212011
 
+    OBS{
+        O código foi desenvolvido no Visual Studio Code, por tanto, a pasta que contém o .exe
+        é a que possui o nome "output"
+
+        para rodar em outros compiladores, basta utilizar o .cpp que ele cria o .exe na maquina
+
+    }
+        
 */
+
 
 /*Inicializando o tabuleiro, Q = queen, K = king
 Letras em maiúsculas representam peças Pretas, em minúculas peças brancas */
@@ -55,60 +64,62 @@ void printarMatriz(){
 
 //função que move as peças no tabuleiro
 
+//função que move as peças no tabuleiro
 int moverPecas(int linOrigem, int colOrigem, int linDestino, int colDestino){
-    char peca;
-    int mover = 0;
+    char peca = xadrez[linOrigem][colOrigem];
+    int podeMover = 0;
     int deslocaVertical = std::abs(linDestino - linOrigem);
     int deslocaHorizon = std::abs(colDestino - colOrigem);
-
-    if((linOrigem >= 0 && linOrigem < 8) && (colOrigem >= 0 && colOrigem < 8)){  
-        if((linDestino >= 0 && linDestino < 8) && (colDestino >= 0 && colDestino < 8)){
-
-            peca = xadrez[linOrigem][colOrigem];
-            
-            if((peca == 'T' || peca == 't') && (deslocaVertical == 0 || deslocaHorizon == 0)) mover = 1;     //verificação de movimento da TORRE
-            if((peca == 'B' || peca == 'b') && (deslocaVertical == deslocaHorizon)) mover = 1;              //verificação de movimentos do BISPO
-
-            //verificaçãa de movimento do CAVALO (Condição que está abaixo)
-            if(((peca == 'C' || peca == 'c') && (deslocaVertical == 1 && deslocaHorizon == 2)) || (deslocaVertical == 2 && deslocaHorizon == 1)) mover = 1; 
-
-            //verificação de movimentos da RAINHA 
-            if(((peca == 'Q' || peca == 'q') && (deslocaVertical == deslocaHorizon)) || ((deslocaVertical == 0) || (deslocaHorizon == 0))) mover = 1;
-            
-            //verificação de movimentos do REI (King)
-             if(peca == 'K' || peca == 'k'){
-                if(deslocaHorizon <= 1 && deslocaVertical <= 1){
-                    mover = 1;
-                        
-                }
-                
-             }
-
-            //verificação de movimentos do PEÃO PRETO
-            if((peca == 'P') && (linDestino - linOrigem == 1) && (deslocaHorizon == 0)) mover = 1;
-
-            //verificaçõa de movimentos do PEÃO BRANCO
-            if((peca == 'p') && (linOrigem - linDestino == 1) && (deslocaHorizon == 0)) mover = 1;
-
-            if(mover){
-                system("CLS");
-                xadrez[linDestino][colDestino] = xadrez[linOrigem][colOrigem];
-                xadrez[linOrigem][colOrigem] = ' ';
-                 
-                return 1;     // 1 == Peça movida com sucesso
-            }else{
-                return 9;   // 9 == peça nõa pode ser movida 
-            }
-        }
-        
-    }
-    return 0;
+	
+	switch(peca) {
+		//Se for uma torre, só poderá se mover se estiver na seguinte restrições
+		case 'T':
+			case 't':
+				podeMover = (deslocaVertical == 0 || deslocaHorizon == 0);
+				break;
+		//Se for um bispo, só poderá se mover se estiver na seguinte restrições
+		case 'B':
+			case 'b':
+			podeMover = (deslocaVertical == deslocaHorizon);
+			break;
+		//Se for um cavalo, só poderá se mover se estiver na seguinte restrições
+		case 'C':
+			case 'c':
+				podeMover = ((deslocaVertical == 1 && deslocaHorizon == 2) || (deslocaVertical == 2 && deslocaHorizon == 1));
+				break;
+		//Se for uma rainha, só poderá se mover se estiver na seguinte restrições
+		case 'Q':
+			case 'q':
+				podeMover = (deslocaVertical == deslocaHorizon) || ((deslocaVertical == 0) || (deslocaHorizon == 0));
+				break;
+		case 'K':
+			case 'k':
+				podeMover = (deslocaHorizon >= 1 || deslocaVertical <= 1);
+				break;
+		//Se for um peão, só poderá se mover se estiver na seguinte restrições
+		case 'P':
+			podeMover = (linDestino - linOrigem == 1) && (deslocaHorizon == 1);
+			break;	
+		case 'p':
+			podeMover = (linDestino - linOrigem == 1) && (deslocaHorizon == 0);
+			break;
+	}
+	//Se a peça ela respeitar as restrições baseadas em seu tipo, ela poderá se mover (return 1)
+	if(podeMover) {
+		system("CLS");
+		xadrez[linDestino][colDestino] = xadrez[linOrigem][colOrigem];
+    	xadrez[linOrigem][colOrigem] = ' ';
+		return 1;
+	} else {
+		//Se não, não poderá mover a peça (return 9)
+		return 9;
+	}
 }
 
 int main (){
-  
     int linhaOrigem, linhaDestino, colunaOrigem, colunaDestino, resultado = 0;
     while(1){
+
         printarMatriz();
 
         cout<<"Informe a linha e coluna de origem: "; 
@@ -133,13 +144,13 @@ int main (){
                     break;
                 
                 case 1:
-
                     break;
             }
             getch();
         }
     }
     getch();
+    system("CLS");
 
     return 0;
 }
