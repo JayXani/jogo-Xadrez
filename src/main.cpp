@@ -1,6 +1,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <conio.h>
+#include <ctype.h>
 
 using namespace std;
 /*Nomes:
@@ -76,6 +77,7 @@ void printarMatriz(){
 
 //função que move TODAS as peças no tabuleiro
 int moverPecas(){
+  
     peca = xadrez[linOrigem][colOrigem];
     deslocaVertical = std::abs(linDestino - linOrigem);
     deslocaHorizon = std::abs(colDestino - colOrigem);
@@ -113,24 +115,31 @@ int moverPecas(){
 			break;
 	}
 
-	//Se a peça ela respeitar as restrições baseadas em seu tipo, ela poderá se mover (return 1)
-	if(podeMover) {
-		system("CLS");
-		xadrez[linDestino][colDestino] = xadrez[linOrigem][colOrigem];
-    	xadrez[linOrigem][colOrigem] = ' ';
-		return 1;
-	} else {
-		//Se não, não poderá mover a peça (return 9)
-		return 9;
-	}
+	//utilizei uma biblioteca do C, para utilizar o "isalpha"
+    if(isalpha(xadrez[linOrigem][colOrigem]) == 2 && isalpha(xadrez[linDestino][colDestino]) == 2){ //Se for igual a 2, letra minuscula, igual a 1 letra maiuscula
+        return 2;
+    }else{
+        if(isalpha(xadrez[linOrigem][colOrigem]) == 1 && isalpha(xadrez[linDestino][colDestino]) == 1){
+            return 2;
+        }else{
+            if(podeMover) { //Se a peça respeitar as restrições baseadas em seu tipo, ela poderá se mover (return 1)
+                system("CLS");
+                xadrez[linDestino][colDestino] = xadrez[linOrigem][colOrigem];
+                xadrez[linOrigem][colOrigem] = ' ';
+            return 1;
+        } else {
+            //Se não, não poderá mover a peça (return 9)
+            return 9;
+        }
+
+        }
+    }
 }
 
 //Função que analisa se os movimentos da TORRE são permitidos 
 int movimentoTorre(){
-
     podeMover = (deslocaVertical == 0 || deslocaHorizon == 0);
     return podeMover;
-     
 }
 
 //função que analisa se os movimentos do BISPO são permitidos
@@ -157,14 +166,26 @@ int movimentoKing(){
     return podeMover;
 }
 
-//função que analisa se os movimentos do PEÃO são permitidos
+//função que analisa se os movimentos dos PEÕES são permitidos
 int movimentoPeao(){
 
+
     if(peca == 'P'){
-        podeMover = ((linOrigem - linDestino == 1) && (deslocaHorizon == 0));
-        return podeMover;
-    }else{
-        if(peca == 'p'){
+        if(linOrigem == 7){ 
+            podeMover = ((linOrigem - linDestino == 2) && (deslocaHorizon == 0)) || ((linOrigem - linDestino == 1) && (deslocaHorizon == 0));       
+            //Na primeira jogada o Peão pode pular 2 casas
+            return podeMover;
+        }else{
+            podeMover = ((linOrigem - linDestino == 1) && (deslocaHorizon == 0));
+            return podeMover;
+        }
+    }
+    if(peca == 'p'){
+        if(linOrigem == 2){
+            podeMover = ((linDestino - linOrigem == 2) && (deslocaHorizon == 0)) || ((linDestino - linOrigem == 1) && (deslocaHorizon == 0));    
+            //Na primeira jogada o Peão pode pular 2 casas
+            return podeMover;
+        }else{
             podeMover = ((linDestino - linOrigem == 1) && (deslocaHorizon == 0));
             return podeMover;
         }
@@ -188,25 +209,27 @@ int main (){
         if(resultado != 1){
             switch ( resultado )
             {
-                case 9 : 
-                    cout<< "ERRO ! \nPeca nao pode ser movida";
+                case 9 :
+                    cout<< "ERRO 01! \nPeca nao pode ser movida, verifique as coordenadas digitadas.";
                     getch();
 
                     break;
                 case 0:
-                    cout<< "ERRO : Valores invalidos\nClique na tecla \"Enter\" para colocar novos valores !";
+                    cout<< "ERRO 02! Coordenadas invalidos\nClique na tecla \"Enter\" para colocar novas coordenadas !";
                     getch();
 
                     break;
                 
                 case 1:
                     break;
+                case 2:
+                    cout<< "ERRO 03 !\nNas coordenadas de DESTINO digitadas, existe uma peca \"amiga\". \nClique na tecla \"Enter\"";
+                    break;
             }
             getch();
         }
     }
     getch();
-    system("CLS");
-
+    
     return 0;
 }
