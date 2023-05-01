@@ -198,7 +198,7 @@ int main (){
     while(1){
 
         printarMatriz();
-
+        
         cout<<"Informe a linha e coluna de origem: "; 
         scanf("%d %d", &linOrigem, &colOrigem);        //usei scanf porquê o "cin" está dando bug
 
